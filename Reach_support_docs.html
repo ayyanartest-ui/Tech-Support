@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReachMobile — Technical Support Reference</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;font-size:14px;color:#1a1a1a;background:#f4f4f4}
+
+.topbar{background:#fff;border-bottom:2px solid #0057a8;padding:12px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 1px 5px rgba(0,0,0,0.08)}
+
+.topbar-title{font-size:14px;color:#444;border-left:1px solid #ddd;padding-left:14px;margin-left:4px}
+.topbar-badge{margin-left:auto;font-size:11px;color:#888;background:#f0f0f0;padding:3px 10px;border-radius:99px}
+
+.nav-tabs{background:#fff;border-bottom:1px solid #ddd;display:flex;gap:0;padding:0 20px;overflow-x:auto;position:sticky;top:53px;z-index:99;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.tab{padding:12px 16px;font-size:13px;cursor:pointer;border-bottom:3px solid transparent;color:#555;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:Arial,sans-serif;transition:all 0.15s}
+.tab.active{color:#0057a8;border-bottom-color:#0057a8;font-weight:700}
+.tab:hover:not(.active){color:#1a1a1a;background:#fafafa}
+
+.page{display:none;padding:24px;max-width:1100px;margin:0 auto}
+.page.active{display:block}
+
+h2{font-size:19px;font-weight:700;margin-bottom:8px}
+h3{font-size:14px;font-weight:700;margin-bottom:10px}
+
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:18px 22px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+
+.badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.b-p1{background:#fde8e8;color:#b91c1c}
+.b-p2{background:#fef3c7;color:#92400e}
+.b-p3{background:#dbeafe;color:#1e40af}
+.b-p4{background:#d1fae5;color:#065f46}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:9px 12px;text-align:left;font-size:11px;font-weight:700;color:#555;background:#f7f7f7;border:1px solid #e0e0e0;text-transform:uppercase;letter-spacing:0.04em}
+td{padding:10px 12px;border:1px solid #e0e0e0;vertical-align:top;line-height:1.55}
+tr:hover td{background:#fafafa}
+td.cn{font-weight:700}
+
+.alert{border-left:4px solid #b91c1c;background:#fff5f5;border-radius:0 8px 8px 0;padding:13px 18px;margin-bottom:14px}
+.alert-title{font-weight:700;color:#b91c1c;font-size:13px;margin-bottom:4px}
+.alert p{font-size:13px;color:#7f1d1d;line-height:1.6}
+
+.info-box{border-left:4px solid #0057a8;background:#eff6ff;border-radius:0 8px 8px 0;padding:12px 18px;margin-bottom:14px}
+.info-box p{font-size:13px;color:#1e40af;line-height:1.6}
+
+.warn-box{border-left:4px solid #d97706;background:#fffbeb;border-radius:0 8px 8px 0;padding:12px 18px;margin-bottom:14px}
+.warn-box p{font-size:13px;color:#92400e;line-height:1.6}
+
+.contact-card{background:#fff;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin-bottom:14px}
+.contact-header{background:#0057a8;color:#fff;padding:12px 18px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:10px}
+.contact-header .tier-badge{background:rgba(255,255,255,0.2);font-size:11px;padding:2px 10px;border-radius:99px;font-weight:400}
+.contact-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.contact-col{padding:16px 18px}
+.contact-col:first-child{border-right:1px solid #e0e0e0}
+.contact-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#888;margin-bottom:8px}
+.contact-col ul{padding-left:16px}
+.contact-col li{margin-bottom:5px;font-size:13px;line-height:1.5}
+.contact-col p{font-size:13px;line-height:1.8;color:#333}
+.contact-link{color:#0057a8;text-decoration:none;font-weight:700}
+.contact-link:hover{text-decoration:underline}
+
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+.metric{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:16px;text-align:center}
+.metric-val{font-size:22px;font-weight:700;margin-bottom:4px}
+.metric-lbl{font-size:11px;color:#666;line-height:1.4}
+
+.step{display:flex;gap:14px;margin-bottom:18px;align-items:flex-start}
+.sc{min-width:32px;height:32px;border-radius:50%;background:#dbeafe;color:#0057a8;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:1px}
+.step-body h3{margin-bottom:4px;font-size:14px}
+.step-body p{color:#555;line-height:1.6;font-size:13px}
+
+code{background:#f0f0f0;padding:2px 7px;border-radius:4px;font-size:12px;font-family:monospace;color:#0057a8}
+
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.filter-lbl{font-size:12px;color:#888;margin-right:4px}
+.fbtn{padding:5px 14px;border-radius:99px;border:1px solid #d0d0d0;background:#fff;color:#555;cursor:pointer;font-size:12px;font-family:Arial,sans-serif;transition:all 0.12s}
+.fbtn.active,.fbtn:hover{background:#0057a8;color:#fff;border-color:#0057a8}
+
+.hours-note{font-size:12px;color:#888;font-style:italic}
+
+@media(max-width:640px){.contact-body{grid-template-columns:1fr}.contact-col:first-child{border-right:none;border-bottom:1px solid #e0e0e0}.page{padding:14px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <img src="data:image/png;base64,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" style="height:36px;object-fit:contain" alt="Reach logo">
+  <div class="topbar-title">Technical Support — Internal Reference</div>
+  <div class="topbar-badge">Internal · v1.0 · 2026</div>
+</div>
+
+<nav class="nav-tabs" id="nav">
+  <button class="tab active" data-pg="overview">Overview</button>
+  <button class="tab" data-pg="contacts">Contacts &amp; team</button>
+  <button class="tab" data-pg="raise">Raising a ticket</button>
+  <button class="tab" data-pg="response">Response times</button>
+  <button class="tab" data-pg="sla">SLA matrix</button>
+  <button class="tab" data-pg="escalation">Escalation</button>
+  <button class="tab" data-pg="hours">Support hours</button>
+</nav>
+
+<!-- ==================== OVERVIEW ==================== -->
+<div id="overview" class="page active">
+  <div class="card">
+    <h2>ReachMobile — Technical Support</h2>
+    <p style="color:#555;line-height:1.7;margin-top:6px">This document is the internal reference guide for ReachMobile's Technical Support operations. It covers team contacts, how to raise and escalate issues via the Reach Central portal, SLA commitments per client group, and support hours.</p>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><div class="metric-val" style="color:#b91c1c">60 min</div><div class="metric-lbl">P1 response target (primary hours)</div></div>
+    <div class="metric"><div class="metric-val" style="color:#92400e">2 hrs</div><div class="metric-lbl">P2 response target (primary hours)</div></div>
+    <div class="metric"><div class="metric-val" style="color:#0057a8">Jira</div><div class="metric-lbl">Ticketing platform</div></div>
+    <div class="metric"><div class="metric-val" style="color:#065f46">P1</div><div class="metric-lbl">24/7 secondary coverage</div></div>
+  </div>
+
+  <div class="alert">
+    <div class="alert-title">Major incident / outage?</div>
+    <p>Create a P1 ticket in the Reach Central portal AND send an immediate email to <strong>rmts@reachmobile.com</strong>. Use subject: <strong>[P1] Client — Issue Summary — ticket #</strong></p>
+  </div>
+
+  <div class="card">
+    <h3>Priority levels at a glance</h3>
+    <table style="margin-top:8px">
+      <thead><tr><th>Priority</th><th>Description</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge b-p1">P1 — Critical</span></td><td>Full service outage or platform-wide disruption</td><td>Network down, platform unreachable, data loss</td></tr>
+        <tr><td><span class="badge b-p2">P2 — High</span></td><td>Major feature degraded, no workaround available</td><td>Provisioning failures, major API down, billing errors</td></tr>
+        <tr><td><span class="badge b-p3">P3 — Medium</span></td><td>Non-critical feature impacted, workaround available</td><td>Slow performance, intermittent errors, minor UI issues</td></tr>
+        <tr><td><span class="badge b-p4">P4 — Low</span></td><td>Cosmetic issues, enhancements, general how-to queries</td><td>Report formatting, feature requests, access queries</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Quick reference — when to use which channel</h3>
+    <table style="margin-top:8px">
+      <thead><tr><th>Scenario</th><th style="text-align:center">Reach Central portal</th><th style="text-align:center">Email rmts@reachmobile.com</th></tr></thead>
+      <tbody>
+        <tr><td>Full service outage (P1)</td><td style="text-align:center;color:#065f46;font-weight:700">✔ Required</td><td style="text-align:center;color:#065f46;font-weight:700">✔ Required</td></tr>
+        <tr><td>Major feature down, business impact (P2)</td><td style="text-align:center;color:#065f46;font-weight:700">✔ Required</td><td style="text-align:center;color:#92400e;font-weight:700">✔ Recommended</td></tr>
+        <tr><td>Non-critical issue, workaround available (P3)</td><td style="text-align:center;color:#065f46;font-weight:700">✔ Required</td><td style="text-align:center;color:#888">✘ Not needed</td></tr>
+        <tr><td>Low priority / feature request (P4)</td><td style="text-align:center;color:#065f46;font-weight:700">✔ Required</td><td style="text-align:center;color:#888">✘ Not needed</td></tr>
+        <tr><td>Security or data breach</td><td style="text-align:center;color:#065f46;font-weight:700">✔ Required</td><td style="text-align:center;color:#b91c1c;font-weight:700">✔ Immediately</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== CONTACTS ==================== -->
+<div id="contacts" class="page">
+
+  <div class="contact-card">
+    <div class="contact-header">
+      Technical Support
+      <span class="tier-badge">Internal escalation contacts</span>
+    </div>
+    <div class="contact-body">
+      <div class="contact-col">
+        <h4>Function</h4>
+        <ul>
+          <li>Primary point of contact for all technical issues</li>
+          <li>Investigates and resolves network, provisioning, and platform issues</li>
+          <li>Creates escalation tickets when engineering involvement is required</li>
+          <li>Communicates ticket status and resolution back to the client</li>
+        </ul>
+        <h4 style="margin-top:14px">Support portal</h4>
+        <p><strong>Reach Central</strong> — Create Ticket option</p>
+        <h4 style="margin-top:14px">Accounts email</h4>
+        <p><a href="mailto:accounts@reachmobile.com" class="contact-link">accounts@reachmobile.com</a></p>
+        <h4 style="margin-top:14px">Hours of operation</h4>
+        <p>Mon–Fri, 9:00 am – 5:00 pm EST (primary)<br>
+        <span class="hours-note">P1 coverage: 24/7 via on-call rotation</span></p>
+      </div>
+      <div class="contact-col">
+        <h4>Escalation contacts — contact in order</h4>
+        <table style="margin-top:4px">
+          <thead><tr><th>#</th><th>Role</th><th>Email</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:700;color:#0057a8;text-align:center">1</td>
+              <td>Technical Support Team</td>
+              <td><a href="mailto:rmts@reachmobile.com" class="contact-link">rmts@reachmobile.com</a></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;color:#0057a8;text-align:center">2</td>
+              <td>TS Leads</td>
+              <td><a href="mailto:ts-leads@reachmobile.com" class="contact-link">ts-leads@reachmobile.com</a></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;color:#0057a8;text-align:center">3</td>
+              <td>TS Director</td>
+              <td><a href="mailto:shubhasish@reachmobile.com" class="contact-link">shubhasish@reachmobile.com</a></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;color:#0057a8;text-align:center">4</td>
+              <td>COO</td>
+              <td><a href="mailto:harsh@reachmobile.com" class="contact-link">harsh@reachmobile.com</a></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;color:#0057a8;text-align:center">5</td>
+              <td>CEO</td>
+              <td><a href="mailto:harjot@reachplatform.com" class="contact-link">harjot@reachplatform.com</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 style="margin-top:16px">Responsibilities</h4>
+        <ul>
+          <li>Network issue investigation</li>
+          <li>Provisioning troubleshooting</li>
+          <li>API / GUI issue diagnosis</li>
+          <li>SIM and device issue resolution</li>
+          <li>Voice, Data, SMS / MMS issues</li>
+          <li>Coverage and connectivity verification</li>
+          <li>Billing and PRR issue triage</li>
+          <li>Roaming and LNP support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== RAISING A TICKET ==================== -->
+<div id="raise" class="page">
+  <div class="info-box"><p>All support issues must be raised via <strong>Reach Central</strong> — click <em>Create Ticket</em> from the portal. Direct emails to engineers are not supported unless escalating a P1 or P2 major incident.</p></div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px">
+
+    <!-- Steps -->
+    <div class="card" style="margin-bottom:0">
+      <h3 style="margin-bottom:18px">How to raise a ticket in Reach Central</h3>
+      <div class="step"><div class="sc">1</div><div class="step-body"><h3>Log in to Reach Central</h3><p>Open Reach Central using your client credentials. Contact your account manager if you need access provisioned.</p></div></div>
+      <div class="step"><div class="sc">2</div><div class="step-body"><h3>Click "Create Ticket"</h3><p>The create ticket form will open as shown on the right. Fill in all fields carefully — the more detail provided, the faster the resolution.</p></div></div>
+      <div class="step"><div class="sc">3</div><div class="step-body"><h3>Select issue type &amp; urgency</h3><p>Choose <em>Incident</em> for outages and service disruptions, or the appropriate type for your request. Set Urgency to match the P1–P4 priority guide on the Overview tab.</p></div></div>
+      <div class="step"><div class="sc">4</div><div class="step-body"><h3>Attach supporting files</h3><p>Upload screenshots, error logs, or XMLs using the Attachment field. Supporting files significantly speed up resolution.</p></div></div>
+      <div class="step"><div class="sc">5</div><div class="step-body"><h3>Click "Create" and track</h3><p>Submit the form. You will receive a ticket reference number. Monitor all updates via Reach Central — all communications are logged on the ticket timeline.</p></div></div>
+    </div>
+
+    <!-- Form preview -->
+    <div class="card" style="margin-bottom:0;padding:20px 22px">
+      <h3 style="margin-bottom:16px">Create ticket — form fields</h3>
+      <div style="background:#f9f9f9;border:1px solid #e0e0e0;border-radius:8px;padding:20px">
+
+        <div style="margin-bottom:14px">
+          <label style="font-size:12px;font-weight:700;display:block;margin-bottom:5px">Name</label>
+          <div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:9px 12px;font-size:13px;color:#aaa">Enter name</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+          <div>
+            <label style="font-size:12px;font-weight:700;display:block;margin-bottom:5px">Mobile number</label>
+            <div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:9px 12px;font-size:13px;color:#aaa">Enter mobile number</div>
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:700;display:block;margin-bottom:5px">Email address</label>
+            <div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:9px 12px;font-size:13px;color:#aaa">Enter email address</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px">
+          <label style="font-size:12px;font-weight:700;display:block;margin-bottom:5px">Issue type</label>
+          <div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:9px 12px;font-size:13px;display:flex;justify-content:space-between;align-items:center">
+            <span>Incident</span><span style="color:#888">&#9660;</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px">
+          <label style="font-size:12px;font-weight:700;display:block;margin-bottom:5px">Subject</label>
+          <div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:9px 12px;font-size:13px;color:#aaa">Enter subject</div>
+        </div>
+
+        <div style="margin-bottom:14px">
+          <label style="font-size:12px;font-weight:700;display:block;margin-bottom:5px">Description</label>
+          <div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:9px 12px;font-size:13px;color:#aaa;height:72px">Enter description</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+          <div>
+            <label style="font-size:12px;font-weight:700;display:block;margin-bottom:5px">Primary category</label>
+            <div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:9px 12px;font-size:13px;display:flex;justify-content:space-between;align-items:center;color:#aaa">
+              <span>Select primary category</span><span>&#9660;</span>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:700;display:block;margin-bottom:5px">Secondary category</label>
+            <div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:9px 12px;font-size:13px;display:flex;justify-content:space-between;align-items:center;color:#aaa">
+              <span>Select secondary category</span><span>&#9660;</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
+          <div>
+            <label style="font-size:12px;font-weight:700;display:block;margin-bottom:5px">Attachment</label>
+            <div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:6px 6px 6px 12px;font-size:13px;display:flex;align-items:center;justify-content:space-between">
+              <span style="color:#aaa">Choose file</span>
+              <span style="background:#1e3a8a;color:#fff;padding:6px 14px;border-radius:5px;font-size:12px;font-weight:700">Browse</span>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:12px;font-weight:700;display:block;margin-bottom:5px">Urgency</label>
+            <div style="background:#fff;border:1px solid #ccc;border-radius:6px;padding:9px 12px;font-size:13px;display:flex;justify-content:space-between;align-items:center;color:#aaa">
+              <span>Select urgency</span><span>&#9660;</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center">
+          <div style="display:inline-block;background:#8fa3c8;color:#fff;padding:11px 48px;border-radius:99px;font-size:14px;font-weight:700">Create</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Field guidance — what to enter</h3>
+    <table style="margin-top:10px">
+      <thead><tr><th>Form field</th><th>What to enter</th><th>Required?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Name</strong></td><td>Full name of the person raising the ticket</td><td><span style="color:#b91c1c;font-weight:700">Required</span></td></tr>
+        <tr><td><strong>Mobile number</strong></td><td>Contact number for follow-up</td><td><span style="color:#b91c1c;font-weight:700">Required</span></td></tr>
+        <tr><td><strong>Email address</strong></td><td>Contact email — ticket updates will be sent here</td><td><span style="color:#b91c1c;font-weight:700">Required</span></td></tr>
+        <tr><td><strong>Issue type</strong></td><td><em>Incident</em> for outages/disruptions; <em>Service Request</em> for access, changes, or queries</td><td><span style="color:#b91c1c;font-weight:700">Required</span></td></tr>
+        <tr><td><strong>Subject</strong></td><td>Brief summary — include client name and issue type. e.g. <code>Reach — P1 — Network Outage</code></td><td><span style="color:#b91c1c;font-weight:700">Required</span></td></tr>
+        <tr><td><strong>Description</strong></td><td>Full details: what happened, when it started, number of affected users/lines, steps already taken, error messages</td><td><span style="color:#b91c1c;font-weight:700">Required</span></td></tr>
+        <tr><td><strong>Primary category</strong></td><td>Select the top-level category matching the issue (e.g. Network, Provisioning, Billing)</td><td><span style="color:#b91c1c;font-weight:700">Required</span></td></tr>
+        <tr><td><strong>Secondary category</strong></td><td>Select the sub-category to narrow the issue type</td><td>Where applicable</td></tr>
+        <tr><td><strong>Attachment</strong></td><td>Upload screenshots, error logs, XMLs, or any supporting files</td><td>Recommended</td></tr>
+        <tr><td><strong>Urgency</strong></td><td>Match to P1–P4 priority: P1 = Critical, P2 = High, P3 = Medium, P4 = Low</td><td><span style="color:#b91c1c;font-weight:700">Required</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert">
+    <div class="alert-title">P1 / Major outage — additional step required</div>
+    <p>After creating your Reach Central ticket, also email <strong>rmts@reachmobile.com</strong><br>
+    Subject: <code>[P1] ClientName — Issue Summary — Ticket #XXXX</code><br>
+    Include: affected service, user impact scope, and ticket reference number.</p>
+  </div>
+</div>
+
+<!-- ==================== RESPONSE TIMES ==================== -->
+<div id="response" class="page">
+  <div class="info-box"><p>Response times apply during <strong>primary support hours</strong>. SLA clocks are paused during secondary hours for P3 and P4. P1 response is 24/7.</p></div>
+
+  <div class="card" style="overflow-x:auto">
+    <h3>Technical support response times</h3>
+    <table style="margin-top:12px">
+      <thead>
+        <tr>
+          <th style="min-width:100px">Priority</th>
+          <th>Issue types handled</th>
+          <th style="min-width:150px">First response target</th>
+          <th style="min-width:150px">Resolution target</th>
+          <th style="min-width:130px">Reporting method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge b-p1">P1 — Critical</span></td>
+          <td>Full outage, platform down, data loss, security breach, service-wide disruption</td>
+          <td><strong style="color:#b91c1c">60 min (primary)<br>4 hrs (secondary)</strong></td>
+          <td>12 hrs</td>
+          <td>Reach Central portal<br><em style="color:#888;font-size:12px">+ email rmts@</em></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-p2">P2 — High</span></td>
+          <td>Provisioning failures, API/GUI issues, SIM issues, pending orders, billing errors, LNP issues</td>
+          <td><strong style="color:#92400e">2 hrs (primary)<br>2 hrs paused (secondary)</strong></td>
+          <td>24 hrs</td>
+          <td>Reach Central portal</td>
+        </tr>
+        <tr>
+          <td><span class="badge b-p3">P3 — Medium</span></td>
+          <td>Non-critical feature degradation, workaround available, intermittent issues, reporting errors</td>
+          <td><strong style="color:#1e40af">8 hrs (primary)<br>Paused (secondary)</strong></td>
+          <td>7 business days</td>
+          <td>Reach Central portal</td>
+        </tr>
+        <tr>
+          <td><span class="badge b-p4">P4 — Low</span></td>
+          <td>Feature requests, UAT questions, how-to queries, cosmetic issues, access requests</td>
+          <td><strong style="color:#065f46">24 hrs (primary)<br>Paused (secondary)</strong></td>
+          <td>3 weeks</td>
+          <td>Reach Central portal</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Pre-escalation troubleshooting checklist</h3>
+    <p style="font-size:13px;color:#555;margin-bottom:12px">Complete these steps before escalating a network or device issue to Technical Support.</p>
+    <table>
+      <thead><tr><th colspan="2">Complete before raising a Technical Support ticket</th></tr></thead>
+      <tbody>
+        <tr><td>Verify MDN is active with all appropriate features</td><td>Confirm there are no blocks active on the MDN</td></tr>
+        <tr><td>Verify service type presented by device (5G / 4G)</td><td>New device? Confirm old device has been powered off</td></tr>
+        <tr><td>Power cycle the device</td><td>Verify SIM is inserted and correctly programmed</td></tr>
+        <tr><td>Confirm minimum signal strength (1–2 bars)</td><td>For data issues: disable Wi-Fi, attempt new data session</td></tr>
+        <tr><td>Check if data optimisation features are active</td><td>If roaming: verify roaming settings on device</td></tr>
+        <tr><td>Identify all services not working</td><td>Capture all error messages with screenshots</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== SLA MATRIX ==================== -->
+<div id="sla" class="page">
+  <div class="info-box"><p>SLA clocks run during primary support hours. Clocks are <strong>paused</strong> during secondary hours for P2, P3 and P4 — they resume at the start of the next primary window. P1 is covered 24/7.</p></div>
+
+  <div class="card" style="overflow-x:auto">
+    <h3 style="margin-bottom:16px">Response time</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="min-width:120px">Priority</th>
+          <th>Primary hours</th>
+          <th>Secondary hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="badge b-p1">P1 — Critical</span></td><td><strong>60 min</strong></td><td>4 hrs</td></tr>
+        <tr><td><span class="badge b-p2">P2 — High</span></td><td><strong>2 hrs</strong></td><td>2 hrs <em style="color:#888">(paused)</em></td></tr>
+        <tr><td><span class="badge b-p3">P3 — Medium</span></td><td><strong>8 hrs</strong></td><td>8 hrs</td></tr>
+        <tr><td><span class="badge b-p4">P4 — Low</span></td><td><strong>24 hrs</strong></td><td>24 hrs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="overflow-x:auto">
+    <h3 style="margin-bottom:16px">Restoration time</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="min-width:120px">Priority</th>
+          <th>Primary hours</th>
+          <th>Secondary hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="badge b-p1">P1 — Critical</span></td><td><strong>12 hrs</strong></td><td>12 hrs</td></tr>
+        <tr><td><span class="badge b-p2">P2 — High</span></td><td><strong>24 hrs</strong></td><td>24 hrs <em style="color:#888">(paused)</em></td></tr>
+        <tr><td><span class="badge b-p3">P3 — Medium</span></td><td><strong>7 days</strong></td><td>7 days</td></tr>
+        <tr><td><span class="badge b-p4">P4 — Low</span></td><td><strong>3 weeks</strong></td><td>3 weeks</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="overflow-x:auto">
+    <h3 style="margin-bottom:16px">Resolution time</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="min-width:120px">Priority</th>
+          <th>Primary hours</th>
+          <th>Secondary hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="badge b-p1">P1 — Critical</span></td><td><strong>2 weeks</strong></td><td>2 weeks</td></tr>
+        <tr><td><span class="badge b-p2">P2 — High</span></td><td><strong>3 weeks</strong></td><td>3 weeks <em style="color:#888">(paused)</em></td></tr>
+        <tr><td><span class="badge b-p3">P3 — Medium</span></td><td><strong>Next release</strong></td><td>Next release</td></tr>
+        <tr><td><span class="badge b-p4">P4 — Low</span></td><td><strong>To be agreed</strong></td><td>To be agreed</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>SLA clock summary</h3>
+    <table style="margin-top:10px">
+      <thead><tr><th>Condition</th><th>Clock status</th></tr></thead>
+      <tbody>
+        <tr><td>Primary hours — all priorities</td><td><strong style="color:#065f46">Running</strong></td></tr>
+        <tr><td>Secondary hours — P1</td><td><strong style="color:#065f46">Running — 24/7 on-call</strong></td></tr>
+        <tr><td>Secondary hours — P2, P3, P4</td><td><strong style="color:#92400e">Paused</strong> — resumes at start of next primary window</td></tr>
+        <tr><td>US National Holidays</td><td>P1 still covered; P2–P4 paused</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== ESCALATION ==================== -->
+<div id="escalation" class="page">
+  <div class="alert">
+    <div class="alert-title">P1 / major incident escalation email</div>
+    <p>For any full outage or major service disruption, send an email immediately to:<br>
+    <strong style="font-size:15px">rmts@reachmobile.com</strong></p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-bottom:18px">Escalation process — step by step</h3>
+    <div class="step"><div class="sc">1</div><div class="step-body"><h3>Detect and classify the issue</h3><p>Identify the severity using the P1–P4 guide on the Overview tab. If service is fully down or there is widespread user impact, classify immediately as P1.</p></div></div>
+    <div class="step"><div class="sc">2</div><div class="step-body"><h3>Complete pre-troubleshooting steps</h3><p>Complete the Tier 1 network troubleshooting checklist on the Response Times tab before escalating. Document all steps taken and outcomes.</p></div></div>
+    <div class="step"><div class="sc">3</div><div class="step-body"><h3>Log a ticket in Jira immediately</h3><p>Create an Incident ticket in the Reach Central portal. Set the correct priority. The SLA clock starts from ticket creation time.</p></div></div>
+    <div class="step"><div class="sc">4</div><div class="step-body"><h3>Send escalation email for P1 / P2 major issues</h3><p>Email <strong>rmts@reachmobile.com</strong> with subject: <code>[P1] ClientName — Issue Summary — Ticket #XXXX</code>. Include affected service, impact scope, and the ticket URL.</p></div></div>
+    <div class="step"><div class="sc">5</div><div class="step-body"><h3>Await acknowledgement</h3><p>The Technical Support team will acknowledge within the SLA response window for your client group. All further communication goes through the ticket — avoid sending duplicate emails.</p></div></div>
+    <div class="step"><div class="sc">6</div><div class="step-body"><h3>Post-incident review (P1 only)</h3><p>For all resolved P1 incidents, a root cause analysis (RCA) will be completed and shared within 48 hours of resolution. The RCA document is attached to the original ticket.</p></div></div>
+  </div>
+
+  <div class="card">
+    <h3>What to include in your P1 escalation email</h3>
+    <table style="margin-top:10px">
+      <thead><tr><th>Field</th><th>What to include</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Subject line</strong></td><td>[P1] ClientName — Issue description — Ticket #XXXX</td></tr>
+        <tr><td>Affected service</td><td>Name of platform, system, or feature impacted</td></tr>
+        <tr><td>Impact scope</td><td>Number of users / lines / sites affected</td></tr>
+        <tr><td>Time of detection</td><td>When the issue was first noticed — include timezone</td></tr>
+        <tr><td>Current status</td><td>What is happening right now</td></tr>
+        <tr><td>Steps taken so far</td><td>Troubleshooting already attempted</td></tr>
+        <tr><td>ticket reference</td><td>Full URL or ticket ID (e.g. RMTS-1234)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== SUPPORT HOURS ==================== -->
+<div id="hours" class="page">
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+    <div class="card" style="margin-bottom:0;border-top:3px solid #0057a8">
+      <h3 style="margin-bottom:12px;color:#0057a8">Primary support hours</h3>
+      <p style="font-size:15px;font-weight:700;margin-bottom:6px">Mon – Fri, 9:00 am – 5:00 pm EST</p>
+      <p style="font-size:13px;color:#555;margin-bottom:12px">Excluding US National Holidays</p>
+      <table>
+        <thead><tr><th>Priority</th><th>Coverage</th><th>Channel</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge b-p1">P1</span></td><td><strong style="color:#065f46">Covered</strong></td><td>Email &amp; tickets</td></tr>
+          <tr><td><span class="badge b-p2">P2</span></td><td><strong style="color:#065f46">Covered</strong></td><td>Email &amp; tickets</td></tr>
+          <tr><td><span class="badge b-p3">P3</span></td><td><strong style="color:#065f46">Covered</strong></td><td>Email &amp; tickets</td></tr>
+          <tr><td><span class="badge b-p4">P4</span></td><td><strong style="color:#065f46">Covered</strong></td><td>Email &amp; tickets</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-bottom:0;border-top:3px solid #92400e">
+      <h3 style="margin-bottom:12px;color:#92400e">Secondary support hours</h3>
+      <p style="font-size:15px;font-weight:700;margin-bottom:6px">5:00 pm – 9:00 am EST (Mon – Fri)</p>
+      <p style="font-size:13px;font-weight:700;margin-bottom:6px">5:00 pm Fri – 9:00 am Mon</p>
+      <p style="font-size:13px;color:#555;margin-bottom:12px">Including US National Holidays</p>
+      <table>
+        <thead><tr><th>Priority</th><th>Coverage</th><th>Channel</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge b-p1">P1</span></td><td><strong style="color:#065f46">Covered — on-call</strong></td><td>Email &amp; tickets</td></tr>
+          <tr><td><span class="badge b-p2">P2</span></td><td><strong style="color:#92400e">Paused</strong></td><td>Resumes next primary</td></tr>
+          <tr><td><span class="badge b-p3">P3</span></td><td><strong style="color:#92400e">Paused</strong></td><td>Resumes next primary</td></tr>
+          <tr><td><span class="badge b-p4">P4</span></td><td><strong style="color:#92400e">Paused</strong></td><td>Resumes next primary</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>SLA clock behaviour</h3>
+    <table style="margin-top:10px">
+      <thead><tr><th>Condition</th><th>Clock status</th></tr></thead>
+      <tbody>
+        <tr><td>Primary hours — all priorities</td><td><strong style="color:#065f46">Running</strong></td></tr>
+        <tr><td>Secondary hours — P1</td><td><strong style="color:#065f46">Running — 24/7 on-call</strong></td></tr>
+        <tr><td>Secondary hours — P2, P3, P4</td><td><strong style="color:#92400e">Paused</strong> — resumes at start of next primary window</td></tr>
+        <tr><td>US National Holidays</td><td>P1 still covered; P2–P4 paused</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('#nav .tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('#nav .tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.pg).classList.add('active');
+    window.scrollTo(0,0);
+  });
+});
+function showSla(type,btn){
+  ['response','restoration','resolution'].forEach(t=>{
+    document.getElementById('tbl-'+t).style.display=t===type?'block':'none';
+  });
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
