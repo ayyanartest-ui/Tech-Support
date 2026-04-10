@@ -165,6 +165,12 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
   .page{display:block!important;padding:16px;page-break-after:always}
   body{background:#fff}
 }
+
+/* ── EDIT MODE ── */
+.edit-mode [contenteditable]{outline:2px dashed #e8415a;outline-offset:2px;border-radius:3px;cursor:text;min-width:20px;display:inline-block}
+.edit-mode [contenteditable]:focus{outline:2px solid #e8415a;background:#fff9fa}
+.edit-banner{display:none;background:#e8415a;color:#fff;text-align:center;padding:8px;font-size:13px;font-weight:700;letter-spacing:0.03em;position:sticky;top:58px;z-index:198}
+.edit-banner.show{display:block}
 </style>
 </head>
 <body>
@@ -176,6 +182,8 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
   <span class="topbar-title">Technical Support Reference</span>
   <div class="topbar-right">
     <span class="topbar-badge">Internal &middot; Confidential</span>
+    <button id="edit-btn" onclick="toggleEdit()" style="margin-left:8px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);color:#fff;padding:6px 16px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.03em;transition:all 0.15s">&#9998; Edit</button>
+    <button id="save-btn" onclick="saveFile()" style="display:none;margin-left:6px;background:#e8415a;border:none;color:#fff;padding:6px 16px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.03em">&#11015; Save & Download</button>
   </div>
 </div>
 
@@ -191,6 +199,7 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
     <button class="tab" data-pg="hours">Support Hours</button>
   </div>
 </div>
+<div class="edit-banner" id="edit-banner">&#9998; EDIT MODE ON &mdash; Click any text to edit it. Click "Save &amp; Download" when done.</div>
 
 
 <!-- ═══ OVERVIEW ═══ -->
@@ -207,7 +216,7 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
 
   <div class="box-red">
     <div class="box-title">&#9888; Major incident / outage?</div>
-    <p>Create a P1 ticket in <strong>Reach Central</strong> AND immediately email <strong>rmts@reachmobile.com</strong><br>
+    <p>Create a P1 ticket in <strong>Reach Central</strong> AND immediately email <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c2b0afb6b182b0a7a3a1aaafada0abaea7eca1adaf">[email&#160;protected]</a></strong><br>
     Subject: <code>[P1] ClientName &mdash; Issue Summary &mdash; Ticket #XXXX</code></p>
   </div>
 
@@ -227,7 +236,7 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
   <div class="card">
     <div class="card-title">When to use each channel</div>
     <table>
-      <thead><tr><th>Scenario</th><th style="text-align:center">Reach Central ticket</th><th style="text-align:center">Email rmts@reachmobile.com</th></tr></thead>
+      <thead><tr><th>Scenario</th><th style="text-align:center">Reach Central ticket</th><th style="text-align:center">Email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="146679606754667175777c797b767d78713a777b79">[email&#160;protected]</a></th></tr></thead>
       <tbody>
         <tr><td>Full service outage (P1)</td><td style="text-align:center"><span class="pg">&#10004; Required</span></td><td style="text-align:center"><span class="pg">&#10004; Required</span></td></tr>
         <tr><td>Major feature down (P2)</td><td style="text-align:center"><span class="pg">&#10004; Required</span></td><td style="text-align:center"><span class="pa">&#10004; Recommended</span></td></tr>
@@ -262,7 +271,7 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
         <h4>Support portal</h4>
         <p><strong>Reach Central</strong> &mdash; Create Ticket option</p>
         <h4>Accounts email</h4>
-        <p><a href="mailto:accounts@reachmobile.com" class="clink">accounts@reachmobile.com</a></p>
+        <p><a href="/cdn-cgi/l/email-protection#f29391919d879c8681b2809793919a9f9d909b9e97dc919d9f" class="clink"><span class="__cf_email__" data-cfemail="234240404c564d575063514642404b4e4c414a4f460d404c4e">[email&#160;protected]</span></a></p>
         <h4>Hours of operation</h4>
         <p>Mon &ndash; Fri &nbsp;|&nbsp; 9:00 am &ndash; 5:00 pm EST<br>
         <span style="font-size:12px;color:var(--muted)">P1 coverage: 24/7 via on-call rotation</span></p>
@@ -283,11 +292,11 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
         <table>
           <thead><tr><th>#</th><th>Role</th><th>Email</th></tr></thead>
           <tbody>
-            <tr><td><span class="en">1</span></td><td class="fw">Technical Support Team</td><td><a href="mailto:rmts@reachmobile.com" class="clink">rmts@reachmobile.com</a></td></tr>
-            <tr><td><span class="en">2</span></td><td class="fw">TS Leads</td><td><a href="mailto:ts-leads@reachmobile.com" class="clink">ts-leads@reachmobile.com</a></td></tr>
-            <tr><td><span class="en">3</span></td><td class="fw">TS Director</td><td><a href="mailto:shubhasish@reachmobile.com" class="clink">shubhasish@reachmobile.com</a></td></tr>
-            <tr><td><span class="en">4</span></td><td class="fw">COO</td><td><a href="mailto:harsh@reachmobile.com" class="clink">harsh@reachmobile.com</a></td></tr>
-            <tr><td><span class="en">5</span></td><td class="fw">CEO</td><td><a href="mailto:harjot@reachplatform.com" class="clink">harjot@reachplatform.com</a></td></tr>
+            <tr><td><span class="en">1</span></td><td class="fw">Technical Support Team</td><td><a href="/cdn-cgi/l/email-protection#1f6d726b6c5f6d7a7e7c7772707d76737a317c7072" class="clink"><span class="__cf_email__" data-cfemail="6f1d021b1c2f1d0a0e0c0702000d06030a410c0002">[email&#160;protected]</span></a></td></tr>
+            <tr><td><span class="en">2</span></td><td class="fw">TS Leads</td><td><a href="/cdn-cgi/l/email-protection#2f5b5c02434a4e4b5c6f5d4a4e4c4742404d46434a014c4042" class="clink"><span class="__cf_email__" data-cfemail="e99d9ac4858c888d9aa99b8c888a8184868b80858cc78a8684">[email&#160;protected]</span></a></td></tr>
+            <tr><td><span class="en">3</span></td><td class="fw">TS Director</td><td><a href="/cdn-cgi/l/email-protection#14677c61767c75677d677c54667175777c797b767d78713a777b79" class="clink"><span class="__cf_email__" data-cfemail="30435845525851435943587042555153585d5f52595c551e535f5d">[email&#160;protected]</span></a></td></tr>
+            <tr><td><span class="en">4</span></td><td class="fw">COO</td><td><a href="/cdn-cgi/l/email-protection#e78f8695948fa7958286848f8a88858e8b82c984888a" class="clink"><span class="__cf_email__" data-cfemail="a5cdc4d7d6cde5d7c0c4c6cdc8cac7ccc9c08bc6cac8">[email&#160;protected]</span></a></td></tr>
+            <tr><td><span class="en">5</span></td><td class="fw">CEO</td><td><a href="/cdn-cgi/l/email-protection#345c55465e5b4074465155575c44585540525b46591a575b59" class="clink"><span class="__cf_email__" data-cfemail="6e060f1c04011a2e1c0b0f0d061e020f1a08011c03400d0103">[email&#160;protected]</span></a></td></tr>
           </tbody>
         </table>
         <div class="box-amber" style="margin-top:16px;margin-bottom:0">
@@ -367,7 +376,7 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
 
   <div class="box-red">
     <div class="box-title">&#9888; P1 / Major outage &mdash; additional step required</div>
-    <p>After creating your Reach Central ticket, also email <strong>rmts@reachmobile.com</strong><br>
+    <p>After creating your Reach Central ticket, also email <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="46342b323506342327252e2b29242f2a236825292b">[email&#160;protected]</a></strong><br>
     Subject: <code>[P1] ClientName &mdash; Issue Summary &mdash; Ticket #XXXX</code><br>
     Include: affected service, user impact scope, and ticket reference number.</p>
   </div>
@@ -482,7 +491,7 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
 
   <div class="box-red">
     <div class="box-title">&#9888; P1 / Major incident escalation</div>
-    <p>Send an email immediately to <strong>rmts@reachmobile.com</strong><br>
+    <p>Send an email immediately to <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="344659404774465155575c595b565d58511a575b59">[email&#160;protected]</a></strong><br>
     Subject: <code>[P1] ClientName &mdash; Issue Summary &mdash; Ticket #XXXX</code></p>
   </div>
 
@@ -492,7 +501,7 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
       <div class="step"><div class="step-n">1</div><div class="step-b"><h4>Detect and classify</h4><p>Identify severity using the P1&ndash;P4 guide. Full service down or widespread impact = P1 immediately.</p></div></div>
       <div class="step"><div class="step-n">2</div><div class="step-b"><h4>Complete pre-troubleshooting steps</h4><p>Complete the checklist on the Response Times tab. Document all steps and outcomes.</p></div></div>
       <div class="step"><div class="step-n">3</div><div class="step-b"><h4>Log a ticket in Reach Central</h4><p>Create an Incident ticket with the correct priority. The SLA clock starts from ticket creation time.</p></div></div>
-      <div class="step"><div class="step-n">4</div><div class="step-b"><h4>Send escalation email (P1 / P2)</h4><p>Email <strong>rmts@reachmobile.com</strong> &mdash; Subject: <code>[P1] ClientName &mdash; Issue &mdash; Ticket #XXXX</code>. Include affected service, impact scope, and ticket reference.</p></div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-b"><h4>Send escalation email (P1 / P2)</h4><p>Email <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bbc9d6cfc8fbc9dedad8d3d6d4d9d2d7de95d8d4d6">[email&#160;protected]</a></strong> &mdash; Subject: <code>[P1] ClientName &mdash; Issue &mdash; Ticket #XXXX</code>. Include affected service, impact scope, and ticket reference.</p></div></div>
       <div class="step"><div class="step-n">5</div><div class="step-b"><h4>Await acknowledgement</h4><p>The team will acknowledge within the SLA response window. All further communication goes through the Reach Central ticket.</p></div></div>
       <div class="step" style=""><div class="step-n">6</div><div class="step-b" style="padding-bottom:0"><h4>Post-incident review (P1 only)</h4><p>A root cause analysis (RCA) will be shared within 48 hours of resolution, attached to the original ticket.</p></div></div>
     </div>
@@ -550,38 +559,4 @@ code{background:#f1f5f9;padding:2px 7px;border-radius:4px;font-size:12px;font-fa
           <tbody>
             <tr><td><span class="badge bp1">P1</span></td><td><span class="pg">On-call 24/7</span></td><td>Email &amp; tickets</td></tr>
             <tr><td><span class="badge bp2">P2</span></td><td><span class="pa">Paused</span></td><td>Resumes next primary</td></tr>
-            <tr><td><span class="badge bp3">P3</span></td><td><span class="pa">Paused</span></td><td>Resumes next primary</td></tr>
-            <tr><td><span class="badge bp4">P4</span></td><td><span class="pa">Paused</span></td><td>Resumes next primary</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">SLA clock behaviour</div>
-    <table>
-      <thead><tr><th>Condition</th><th>Clock status</th></tr></thead>
-      <tbody>
-        <tr><td>Primary hours &mdash; all priorities</td><td><span class="pg">Running</span></td></tr>
-        <tr><td>Secondary hours &mdash; P1</td><td><span class="pg">Running &mdash; 24/7 on-call</span></td></tr>
-        <tr><td>Secondary hours &mdash; P2, P3, P4</td><td><span class="pa">Paused &mdash; resumes at start of next primary window</span></td></tr>
-        <tr><td>US National Holidays</td><td>P1 still covered &nbsp;|&nbsp; P2&ndash;P4 paused</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<script>
-document.querySelectorAll('#nav .tab').forEach(function(t){
-  t.addEventListener('click', function(){
-    document.querySelectorAll('#nav .tab').forEach(function(x){x.classList.remove('active')});
-    document.querySelectorAll('.page').forEach(function(x){x.classList.remove('active')});
-    t.classList.add('active');
-    document.getElementById(t.getAttribute('data-pg')).classList.add('active');
-    window.scrollTo(0,0);
-  });
-});
-</script>
-</body>
-</html>
+            <t
